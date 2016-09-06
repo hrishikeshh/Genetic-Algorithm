@@ -1,5 +1,4 @@
 import random
-import os
 
 DICT = {'0000' : 0,
 '0001' : 1,
