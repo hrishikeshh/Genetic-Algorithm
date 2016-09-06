@@ -7,6 +7,7 @@ This script solves the problem presented in the AI Junkie Genetic Algorithm arti
 "Given the digits 0 through 9 and the operators +, -, * and /,  find a sequence that will represent a given target number. The operators will be applied sequentially from left to right as you read." (page 3)
 
 Additional information:
+
 1. Result follows the pattern: number -> operator -> number -> operator -> number...
 2. Invalid genes are ignored
 3. Divide by zero is solved by ignoring '0' when following a '/'
