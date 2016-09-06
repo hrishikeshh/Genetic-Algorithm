@@ -1,4 +1,5 @@
 import random
+import os
 
 DICT = {'0000' : 0,
 '0001' : 1,
@@ -34,13 +35,25 @@ def main():
     generation = 0
     solution_found = False
     while(not solution_found):
-        print('Generation: ' + str(generation))
-        print('Target Number: ' + str(target_num))
-
         # Test population
         for chromosome in population:
             result, formula = decode_chromosome(chromosome[0])
             chromosome[1] = calculate_fitness(target_num, result)
+
+        # Find best chromosome, then print information
+        best_chromosome = [0, -999]
+        for i in population:
+            if i[1] > best_chromosome[1]:
+                best_chromosome = i
+
+        result, formula = decode_chromosome(best_chromosome[0])
+        print('Generation: ' + str(generation))
+        print('Target Number: ' + str(target_num))
+        print(str(best_chromosome[1]) + ': ' + formula + ' = ' + str(result))
+        print()
+
+        if result == target_num:
+            solution_found = True
 
         # Breed new generation
         new_population = []
@@ -51,15 +64,6 @@ def main():
             new_population.append([offspring1, 0])
             new_population.append([offspring2, 0])
 
-        best_chromosome = [0, -999]
-        for i in population:
-            if i[1] > best_chromosome[1]:
-                best_chromosome = i
-        result, formula = decode_chromosome(best_chromosome[0])
-        if result == target_num:
-            solution_found = True
-        print(str(best_chromosome[1]) + ': ' + formula + ' = ' + str(result))
-        print()
         population = new_population
         generation += 1
 
@@ -97,6 +101,7 @@ def calculate_fitness(target, result):
     else:
         return 1 / abs(target - result)
 
+
 def decode_chromosome(chrom):
     c = "".join(chrom)
     chromosome = [c[i:i+GENE_LENGTH] for i in range(0, len(c), GENE_LENGTH)]
@@ -127,10 +132,9 @@ def decode_chromosome(chrom):
                 elif last_valid_character == '*':
                     result *= i
                 elif last_valid_character == '/':
-                    try:
-                        result /= i
-                    except ZeroDivisionError:
+                    if i == 0:
                         continue
+                    result /= i
                 last_valid_character = i
                 formula = formula + str(i)
             elif is_integer(last_valid_character) and not is_integer(i):
