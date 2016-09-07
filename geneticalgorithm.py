@@ -20,7 +20,7 @@ GENE_LENGTH = 4
 POPULATION_SIZE = 100 # Must be even
 
 CROSSOVER_RATE = .7
-MUTATION_RATE = .001
+MUTATION_RATE = .01
 
 def main():
     target_num = random.randint(0, 1000)
