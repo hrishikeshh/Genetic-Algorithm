@@ -1,4 +1,5 @@
 import random
+import argparse
 
 DICT = {'0000' : 0,
 '0001' : 1,
@@ -15,15 +16,23 @@ DICT = {'0000' : 0,
 '1100' : '*',
 '1101' : '/'}
 
-CHROMO_LENGTH = 300
+parser = argparse.ArgumentParser(prog='geneticalgorithm')
+parser.add_argument('-n', '--number', type=float, default=random.randint(0, 1000), help='Target number')
+parser.add_argument('-l', '--length', type=int, default=300, help='Chromosome length')
+parser.add_argument('-c', '--crossover', type=float, default=0.7, help='Crossover rate')
+parser.add_argument('-m', '--mutation', type=float, default=0.01, help='Mutation rate')
+
+args = parser.parse_args()
+
+CHROMO_LENGTH = args.length
 GENE_LENGTH = 4
 POPULATION_SIZE = 100 # Must be even
 
-CROSSOVER_RATE = .7
-MUTATION_RATE = .01
+CROSSOVER_RATE = args.crossover
+MUTATION_RATE = args.mutation
 
 def main():
-    target_num = random.randint(0, 1000)
+    target_num = args.number
 
     population = []
     # Generate Initial Population
